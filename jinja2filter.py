@@ -40,7 +40,8 @@ env = Environment(loader=FunctionLoader(fileloader),
 @click.option('--loglevel',default='INFO',help='python log level name')
 @click.option('--template',default=None,help='jinja2 template string')
 @click.option('--templatefile',default=None,help='jinja2 template file')
-def generate(loglevel='INFO',template=None,templatefile=None) :
+@click.option('--templatevar',default=None,help='jinja2 template environment variable')
+def generate(loglevel='INFO',template=None,templatefile=None,templatevar=None) :
     """
     pipes JSON from STDIN using a jinja2 --template or --templatefile to STDOUT
 
@@ -78,6 +79,8 @@ See also
         content=env.from_string(template)
     elif templatefile is not None :
         content=env.get_template(templatefile)
+    elif templatevar is not None :
+        content=env.from_string(os.environ[templatevar])
     sys.stdout.write(content.render(data=objects))
 
 

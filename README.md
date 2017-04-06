@@ -2,7 +2,7 @@
 
 # jinja2filter.py
 
-Takes all the [Jinja2](https://jinja.pocoo.org) magic to the command line.
+Takes all the [Jinja2](https://jinja.pocoo.org) magic to the command line. 
 
 
 
@@ -45,6 +45,7 @@ Options:
   --loglevel TEXT      python log level name
   --template TEXT      jinja2 template string
   --templatefile TEXT  jinja2 template file
+  --templatevar TEXT   jinja2 template environment variable
   --help               Show this message and exit.
 
 
