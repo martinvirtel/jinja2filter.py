@@ -1,0 +1,2 @@
+Jinja2==2.8
+jinja2-slug==0.1
