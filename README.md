@@ -7,7 +7,7 @@ Takes all the [Jinja2](https://jinja.pocoo.org) magic to the command line.
 
 
 ## Commandline help:
-<div data-cmdline="./jinja2filter.py --help">
+<div data-cmdline="./jinja2filter.py --help"></div>
 ```
 
 Usage: jinja2filter.py [OPTIONS]
@@ -48,4 +48,4 @@ Options:
 
 ```
 
-</div>
+<div></div>
