@@ -13,8 +13,8 @@ Takes all the [Jinja2](https://jinja.pocoo.org) magic to the command line.
 
 Usage: jinja2filter.py [OPTIONS]
 
-      pipes JSON from STDIN using a jinja2 --template or --templatefile to
-      STDOUT
+      pipes JSON, CSV or plain text from STDIN using a jinja2 --template or
+      --templatefile to STDOUT
 
   Example:
 
@@ -43,9 +43,14 @@ Usage: jinja2filter.py [OPTIONS]
 
 Options:
   --loglevel TEXT      python log level name
-  --template TEXT      jinja2 template string
-  --templatefile TEXT  jinja2 template file
-  --templatevar TEXT   jinja2 template environment variable
+  --template TEXT      read jinja2 template string
+  --templatefile TEXT  read jinja2 template file
+  --templatevar TEXT   read jinja2 template from this environment variable
+  --lineregex TEXT     each input line is regex-parsed into a JSON object, the
+                       property names are set using using (?P<var>)
+                       expressions. Use the data variable inside the jinja2
+                       template to loop over the objects
+  --csv                process STDIN as csv file with header row
   --help               Show this message and exit.
 
 
