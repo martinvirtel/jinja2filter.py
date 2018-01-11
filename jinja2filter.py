@@ -1,4 +1,5 @@
-#! /usr/bin/env python
+#! /home/martin/.virtualenvs/lambdascraper/bin/python3
+
 
 import os
 import sys
@@ -41,9 +42,11 @@ env = Environment(loader=FunctionLoader(fileloader),
 @click.option('--template',default=None,help='jinja2 template string')
 @click.option('--templatefile',default=None,help='jinja2 template file')
 @click.option('--templatevar',default=None,help='jinja2 template environment variable')
-def generate(loglevel='INFO',template=None,templatefile=None,templatevar=None) :
+@click.option('--lineregex',default=None,help='each input line is regex-parsed into a JSON object, the property names are set using using (?P<var>) expressions. Use the data variable inside the jinja2 template to loop over the objects')
+@click.option('--csv',default=None,help='process STDIN as csv file with header row')
+def generate(loglevel='INFO',template=None,templatefile=None,templatevar=None,lineregex=None,csv=None) :
     """
-    pipes JSON from STDIN using a jinja2 --template or --templatefile to STDOUT
+    pipes JSON, CSV or plain text from STDIN using a jinja2 --template or --templatefile to STDOUT
 
 
 Example:
@@ -74,7 +77,21 @@ See also
         logger.setLevel(getattr(logging,loglevel))
     except AttributeError :
         raise ValueError("Log level {} not defined. Possible values: CRITICAL, ERROR, WARNING, INFO, DEBUG".format(loglevel))
-    objects=json.load(sys.stdin)
+    if lineregex is not None :
+        r=re.compile(lineregex)
+        objects=[ a.groupdict() for a in (r.search(l) for l in sys.stdin.readlines()) if a is not None ]
+    elif csv is not None :
+        import csv
+        rd=csv.DictReader(sys.stdin)
+        objects=[a for a in rd]
+
+    else :
+        obs=sys.stdin.read()
+        try :
+            objects=json.loads(obs)
+        except Exception as e:
+            print(obs)
+            raise
     if template is not None :
         content=env.from_string(template)
     elif templatefile is not None :
